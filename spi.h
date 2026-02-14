@@ -173,7 +173,7 @@
     #endif
 
     #include <avr/io.h>
-    #include "../common/enums/SPI_enums.h"
+    #include "../../common/enums/SPI_enums.h"
 
     SPI_Status spi_init(SPI_Direction direction, SPI_Polarity setup, SPI_Phase sample);
     void spi_disable(void);
