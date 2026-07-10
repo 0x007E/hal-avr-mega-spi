@@ -130,32 +130,47 @@
         #define SPI_SCK PINB7
     #endif
 
-    #ifndef SPI_SS
-	
+    #ifndef SPI_MULTISLAVE
         /**
-         * @def SPI_SS
-         * @brief Specifies the SPI SS (Slave Select) pin.
+         * @def SPI_MULTISLAVE
+         * @brief Enables support for multiple SPI slave devices.
          *
          * @details
-         * This macro defines the `SS` signal pin for SPI communication. The `SS` pin is used to configure settings such as pull-up resistors, invertion of input and interrupt triggering. By default, `SPI_SS` is set to `PINB4`. Override this macro before including the SPI module if a different pin control configuration is needed.
+         * When defined, this macro allows the SPI master to communicate with multiple slave devices by managing the Slave Select (SS) lines for each device. This feature is useful in applications where multiple peripherals are connected to the same SPI bus. If not defined, the SPI module assumes a single slave device configuration.
          *
-         * @note Ensure the pin control register matches the selected hardware SPI port and pin mapping for reliable communication.
+         * @note Ensure proper management of SS lines in your application code when using multiple slaves.
          */
-        #define SPI_SS PINB4
+        // #define SPI_MULTISLAVE
+    #endif
 
-        #ifndef SPI_ENABLE_MASTER_ABORT
+    #ifndef SPI_MULTISLAVE
+        #ifndef SPI_SS
+        
             /**
-             * @def SPI_ENABLE_MASTER_ABORT
-             * @brief Enables the SPI master abort feature.
+             * @def SPI_SS
+             * @brief Specifies the SPI SS (Slave Select) pin.
              *
              * @details
-             * This macro activates the SPI master abort functionality, which provides a mechanism to safely initialize the master mode. If not defined elsewhere, this macro is automatically defined, along with the `SPI_SS` macro, which specifies the pin control register for the SPI Slave Select (SS) pin. The `SPI_SS` macro defines settings such as pull-up resistors, input inversion, and interrupt triggering on the SS pin, ensuring reliable communication and proper SPI master abort behavior on initialization.
+             * This macro defines the `SS` signal pin for SPI communication. The `SS` pin is used to configure settings such as pull-up resistors, invertion of input and interrupt triggering. By default, `SPI_SS` is set to `PINB4`. Override this macro before including the SPI module if a different pin control configuration is needed.
              *
-             * @note Override `SPI_ENABLE_MASTER_ABORT` and `SPI_SS` in project configuration if custom behavior or pin settings are required.
-             *
-             * @see SPI_SS for SS pin control configuration.
+             * @note Ensure the pin control register matches the selected hardware SPI port and pin mapping for reliable communication.
              */
-            #define SPI_ENABLE_MASTER_ABORT
+            #define SPI_SS PINB4
+
+            #ifndef SPI_ENABLE_MASTER_ABORT
+                /**
+                 * @def SPI_ENABLE_MASTER_ABORT
+                 * @brief Enables the SPI master abort feature.
+                 *
+                 * @details
+                 * This macro activates the SPI master abort functionality, which provides a mechanism to safely initialize the master mode. If not defined elsewhere, this macro is automatically defined, along with the `SPI_SS` macro, which specifies the pin control register for the SPI Slave Select (SS) pin. The `SPI_SS` macro defines settings such as pull-up resistors, input inversion, and interrupt triggering on the SS pin, ensuring reliable communication and proper SPI master abort behavior on initialization.
+                 *
+                 * @note Override `SPI_ENABLE_MASTER_ABORT` and `SPI_SS` in project configuration if custom behavior or pin settings are required.
+                 *
+                 * @see SPI_SS for SS pin control configuration.
+                 */
+                #define SPI_ENABLE_MASTER_ABORT
+            #endif
         #endif
     #endif
 
@@ -177,7 +192,12 @@
 
     SPI_Status spi_init(SPI_Direction direction, SPI_Polarity setup, SPI_Phase sample);
     void spi_disable(void);
-    void spi_select(SPI_Select mode);
+
+    #ifndef SPI_MULTISLAVE
+        void spi_select(SPI_Select mode);
+    #else
+        void spi_select(unsigned char node, SPI_Select mode);
+    #endif
 
     #ifndef SPI_SPIE
 	    unsigned char spi_transfer(unsigned char data);

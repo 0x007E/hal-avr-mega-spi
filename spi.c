@@ -124,7 +124,7 @@ void spi_disable(void)
 }
 
 #ifndef SPI_SPIE
-
+	#ifndef SPI_MULTISLAVE
 	/**
 	 * @brief Control the SPI Slave Select (SS) pin to enable or disable the SPI slave device.
 	 *
@@ -143,6 +143,7 @@ void spi_disable(void)
 		    default         : SPI_PORT |=  (1<<SPI_SS);   break;  // Slave Select Off
 	    }
     }
+	#endif
 
 	/**
 	 * @brief Transfer a single byte of data over the SPI bus.
