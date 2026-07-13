@@ -2,6 +2,8 @@
 
 # `hal-avr-mega-spi` - AVR ATmega SPI Hardware Abstraction
 
+[![Ask DeepWiki](https://deepwiki.com/badge.svg)](https://deepwiki.com/0x007E/hal-avr-mega-spi)
+
 The `hal-avr-mega-spi` is a lightweight `spi` hardware abstraction library for AVR `ATmega` microcontrollers. It provides a clean interface for `spi` initialization and communication while hiding direct register-level interaction from higher software layers. The library is intended for projects that want to separate low-level device startup code from application logic and establish a small, reusable system layer for AVR targets.
 
 ## Features
