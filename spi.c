@@ -16,7 +16,7 @@
  * @important The SS pin must be HIGH during initialization of the bus to avoid unintended slave mode configuration.
  * 
  * @see spi.h for declarations and related information.
- * @see https://github.com/0x007e/hal-avr-mega "AVR ATmega GitHub Repository"
+ * @see https://github.com/0x007e/hal-avr-mega-spi "AVR ATmega SPI HAL GitHub Repository"
  */
 
 #include "spi.h"
